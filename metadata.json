@@ -1,0 +1,8 @@
+{
+  "name": "Nexus",
+  "description": "Generate Docs with AI",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}

@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>نکسوس | فضای کاری هوشمند</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @font-face {
+        font-family: 'YekanBakh';
+        src: url('https://famjljl5gg.ufs.sh/f/aej4FOV7nKCW9LVCq3lpBbjpnwL8W2sqZM5VekAc1RuxdJgy') format('woff2');
+        font-weight: 300;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: 'YekanBakh';
+        src: url('https://famjljl5gg.ufs.sh/f/aej4FOV7nKCWQpSGduaDupy5oitI9YSWV8a6NAL0mXBzjlRH') format('woff2');
+        font-weight: 400;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: 'YekanBakh';
+        src: url('https://famjljl5gg.ufs.sh/f/aej4FOV7nKCW38IF3VLITClFo7fpPkWUuzGtn9BSM1EvXdHA') format('woff2');
+        font-weight: 700;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: 'YekanBakh';
+        src: url('https://famjljl5gg.ufs.sh/f/aej4FOV7nKCWMRRD5XDyP1TFSZvyopzXDRIbfcB5tC9nrKWw') format('woff2');
+        font-weight: 900;
+        font-style: normal;
+      }
+      
+      :root {
+        --accent: #3b82f6;
+        --bg: #07070a;
+      }
+
+      body {
+        font-family: 'YekanBakh', sans-serif;
+        background-color: var(--bg);
+        color: #e5e7eb;
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+      }
+
+      .font-display {
+        font-family: 'YekanBakh', sans-serif;
+        font-weight: 700;
+      }
+
+      .noise {
+        background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+        filter: contrast(170%) brightness(1200%);
+      }
+
+      /* Premium Underline */
+      .rtl-underline {
+        position: relative;
+      }
+      .rtl-underline::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -4px;
+        right: 0;
+        background-color: var(--accent);
+        transition: width 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+      .rtl-underline:hover::after {
+        width: 100%;
+      }
+
+      /* Layout Utilities */
+      .glass {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #1f1f2e;
+        border-radius: 10px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--accent);
+      }
+
+      /* Fluid Animations */
+      .reveal-up {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .reveal-up.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.4",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "react/": "https://esm.sh/react@^19.2.4/"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
