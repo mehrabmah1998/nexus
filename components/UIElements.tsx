@@ -19,34 +19,36 @@ export const AnimatedBackground: React.FC = () => {
 
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none z-0 bg-[#07070a]">
-      {/* DOTS PATTERN */}
+      {/* DOTS PATTERN - High precision rendering */}
       <div 
-        className="absolute inset-0 z-[10] opacity-[0.4] mix-blend-overlay" 
+        className="absolute inset-0 z-[10] opacity-[0.3] mix-blend-overlay" 
         style={{ 
           backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.4) 1.5px, transparent 0)`,
-          backgroundSize: '32px 32px',
+          backgroundSize: '40px 40px',
+          transform: 'translateZ(0)',
         }} 
       />
 
-      {/* Dynamic Grid Overlay */}
+      {/* Dynamic Grid Overlay - Subtle bleed to avoid edges */}
       <div 
-        className="absolute inset-0 opacity-[0.05] z-[1]" 
+        className="absolute -inset-1 opacity-[0.03] z-[1]" 
         style={{ 
           backgroundImage: `linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)`,
-          backgroundSize: '80px 80px',
+          backgroundSize: '100px 100px',
+          transform: 'translateZ(0)',
         }} 
       />
 
-      {/* LIGHT ORBS */}
-      <div className="absolute top-1/4 left-1/4 w-[80vw] h-[80vw] rounded-full blur-[160px] opacity-[0.12] mix-blend-screen animate-nexus-orb-1 bg-blue-600" />
-      <div className="absolute bottom-1/4 right-1/4 w-[75vw] h-[75vw] rounded-full blur-[140px] opacity-[0.10] mix-blend-screen animate-nexus-orb-2 bg-cyan-500" />
-      <div className="absolute top-1/2 left-1/2 w-[70vw] h-[70vw] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[180px] opacity-[0.08] mix-blend-screen animate-nexus-orb-3 bg-indigo-700" />
+      {/* LIGHT ORBS - Expanded size with edge-bleed to prevent clipping */}
+      <div className="absolute -top-[10%] -left-[10%] w-[120vw] h-[120vw] rounded-full blur-[200px] opacity-[0.1] mix-blend-screen animate-nexus-orb-1 bg-blue-600 will-change-transform" />
+      <div className="absolute -bottom-[10%] -right-[10%] w-[110vw] h-[110vw] rounded-full blur-[180px] opacity-[0.08] mix-blend-screen animate-nexus-orb-2 bg-cyan-500 will-change-transform" />
+      <div className="absolute top-1/2 left-1/2 w-[100vw] h-[100vw] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[220px] opacity-[0.06] mix-blend-screen animate-nexus-orb-3 bg-indigo-700 will-change-transform" />
 
       {/* Floating Ambient Embers */}
       {particles.map((p) => (
         <div
           key={p.id}
-          className="absolute bg-blue-400/10 rounded-full blur-[1px] animate-drift"
+          className="absolute bg-blue-400/20 rounded-full blur-[1px] animate-drift will-change-transform"
           style={{
             left: p.left,
             top: p.top,
@@ -58,39 +60,37 @@ export const AnimatedBackground: React.FC = () => {
         />
       ))}
       
-      {/* Global Vignette */}
-      <div className="absolute inset-0 z-[20] pointer-events-none bg-[radial-gradient(circle_at_center,transparent_0%,rgba(7,7,10,0.4)_70%,rgba(7,7,10,0.95)_100%)]" />
+      {/* Global Vignette - Reinforced to hide edge seams */}
+      <div className="absolute inset-[-1px] z-[20] pointer-events-none bg-[radial-gradient(circle_at_center,transparent_0%,rgba(7,7,10,0.3)_60%,rgba(7,7,10,1)_100%)]" />
 
       <style>{`
         @keyframes nexus-orb-1 {
-          0% { transform: translate(-15%, -15%) scale(1); background-color: #2563eb; }
-          33% { transform: translate(20%, 10%) scale(1.1); background-color: #3b82f6; }
-          66% { transform: translate(-10%, 20%) scale(0.9); background-color: #4f46e5; }
-          100% { transform: translate(-15%, -15%) scale(1); background-color: #2563eb; }
+          0% { transform: translate3d(-5%, -5%, 0) scale(1); }
+          50% { transform: translate3d(5%, 5%, 0) scale(1.1); }
+          100% { transform: translate3d(-5%, -5%, 0) scale(1); }
         }
 
         @keyframes nexus-orb-2 {
-          0% { transform: translate(15%, 15%) scale(1); background-color: #06b6d4; }
-          50% { transform: translate(-25%, -10%) scale(1.15); background-color: #0ea5e9; }
-          100% { transform: translate(15%, 15%) scale(1); background-color: #06b6d4; }
+          0% { transform: translate3d(5%, 5%, 0) scale(1); }
+          50% { transform: translate3d(-5%, -5%, 0) scale(1.15); }
+          100% { transform: translate3d(5%, 5%, 0) scale(1); }
         }
 
         @keyframes nexus-orb-3 {
-          0% { transform: translate(-50%, -50%) scale(1) rotate(0deg); background-color: #4338ca; }
-          50% { transform: translate(-45%, -55%) scale(1.2) rotate(180deg); background-color: #2563eb; }
-          100% { transform: translate(-50%, -50%) scale(1) rotate(360deg); background-color: #4338ca; }
+          0% { transform: translate3d(-50%, -50%, 0) rotate(0deg); }
+          100% { transform: translate3d(-50%, -50%, 0) rotate(360deg); }
         }
 
         @keyframes drift {
-          0% { transform: translateY(0) translateX(0); opacity: 0; }
-          10% { opacity: 0.3; }
-          90% { opacity: 0.3; }
-          100% { transform: translateY(-100vh) translateX(40px); opacity: 0; }
+          0% { transform: translate3d(0, 0, 0); opacity: 0; }
+          20% { opacity: 0.4; }
+          80% { opacity: 0.4; }
+          100% { transform: translate3d(40px, -110vh, 0); opacity: 0; }
         }
         
-        .animate-nexus-orb-1 { animation: nexus-orb-1 15s infinite ease-in-out; }
-        .animate-nexus-orb-2 { animation: nexus-orb-2 18s infinite ease-in-out; }
-        .animate-nexus-orb-3 { animation: nexus-orb-3 25s infinite linear; }
+        .animate-nexus-orb-1 { animation: nexus-orb-1 20s infinite ease-in-out; }
+        .animate-nexus-orb-2 { animation: nexus-orb-2 25s infinite ease-in-out; }
+        .animate-nexus-orb-3 { animation: nexus-orb-3 40s infinite linear; }
         .animate-drift { animation: drift infinite linear; }
       `}</style>
     </div>

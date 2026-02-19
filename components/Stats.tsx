@@ -6,13 +6,15 @@ const Stats: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Stats are often visible right after Hero or on larger screens immediately.
+    // Triggering it if it's even slightly in view.
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.01 }
     );
 
     if (sectionRef.current) {

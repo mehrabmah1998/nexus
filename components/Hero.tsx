@@ -7,20 +7,31 @@ const Hero: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    // For the Hero section, we want it to trigger immediately on load
+    // with a slight delay for a more professional "reveal" feel.
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 100);
+
+    // Keep the observer as a backup for scroll-triggering if needed,
+    // though the initial trigger above is the primary fix.
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.01 }
     );
 
     if (sectionRef.current) {
       observer.observe(sectionRef.current);
     }
 
-    return () => observer.disconnect();
+    return () => {
+      clearTimeout(timer);
+      observer.disconnect();
+    };
   }, []);
 
   return (
@@ -28,7 +39,7 @@ const Hero: React.FC = () => {
       ref={sectionRef}
       className="relative min-h-screen flex items-center pt-24 pb-12 lg:pt-32 lg:pb-24 overflow-hidden"
     >
-      <div className="container mx-auto px-6 relative z-20">
+      <div className="max-w-7xl mx-auto px-6 relative z-20 w-full">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
           
           {/* Visual Side (Left in RTL) */}

@@ -30,7 +30,7 @@ const Pricing: React.FC = () => {
   ];
 
   return (
-    <section className="py-32 bg-[#0c0c14] relative">
+    <section className="py-32 bg-[#07070a] relative">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="font-display text-5xl md:text-6xl mb-8">پلن‌های منعطف</h2>
@@ -55,7 +55,7 @@ const Pricing: React.FC = () => {
           {plans.map((plan, i) => (
             <div 
               key={i} 
-              className={`relative p-10 rounded-[2.5rem] border transition-all duration-500 hover:translate-y-[-8px] ${plan.highlight ? 'bg-[#12121c] border-[#3b82f6]/30 shadow-[0_30px_60px_rgba(0,0,0,0.4)]' : 'bg-transparent border-white/5 hover:border-white/10'}`}
+              className={`relative p-10 rounded-[2.5rem] border transition-all duration-500 hover:translate-y-[-8px] ${plan.highlight ? 'bg-white/[0.03] border-[#3b82f6]/30 shadow-[0_30px_60px_rgba(0,0,0,0.4)]' : 'bg-transparent border-white/5 hover:border-white/10'}`}
             >
               {plan.highlight && (
                 <div className="absolute -top-4 right-10 bg-[#3b82f6] text-white px-4 py-1 rounded-full text-[10px] font-black tracking-widest uppercase shadow-lg shadow-blue-500/20">

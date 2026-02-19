@@ -19,14 +19,13 @@ const App: React.FC = () => {
         <main>
           <Hero />
           
-          {/* Stats integrated directly into the flow without harsh cuts */}
-          <div className="relative py-12">
+          <div className="relative">
              <Stats />
           </div>
 
-          <div className="relative mt-20">
-            {/* Soft gradient transition instead of skewed cut */}
-            <div className="absolute top-0 left-0 w-full h-64 bg-gradient-to-b from-transparent to-[#0a0a0f] pointer-events-none" />
+          <div className="relative">
+            {/* Seamless transition using opacity instead of solid colors */}
+            <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-[#07070a] via-transparent to-transparent pointer-events-none z-0" />
             <Features />
           </div>
           
