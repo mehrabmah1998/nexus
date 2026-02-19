@@ -22,10 +22,10 @@ const Navbar: React.FC = () => {
       </div>
       
       <div className="flex items-center gap-4">
-        <button className="hidden sm:block text-sm font-medium text-gray-300 hover:text-white transition-colors">
+        <button className="hidden sm:block text-sm font-medium text-gray-400 hover:text-white transition-colors px-4 py-2">
           ورود
         </button>
-        <button className="bg-[#3b82f6] text-white px-6 py-2 rounded-full font-bold text-sm hover:scale-105 transition-transform active:scale-95 shadow-[0_0_20px_rgba(59,130,246,0.3)]">
+        <button className="bg-[#3b82f6] text-white px-6 py-2.5 rounded-xl font-bold text-sm hover:translate-y-[-1px] transition-all active:translate-y-0 shadow-[0_4px_12px_rgba(59,130,246,0.15)] hover:shadow-[0_8px_20px_rgba(59,130,246,0.2)] border border-white/10">
           شروع کنید
         </button>
       </div>

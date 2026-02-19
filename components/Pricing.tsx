@@ -38,13 +38,13 @@ const Pricing: React.FC = () => {
           <div className="inline-flex items-center bg-white/5 p-1 rounded-full border border-white/10">
             <button 
               onClick={() => setAnnual(false)}
-              className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${!annual ? 'bg-[#3b82f6] text-white' : 'text-gray-400'}`}
+              className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${!annual ? 'bg-[#3b82f6] text-white shadow-md' : 'text-gray-400 hover:text-gray-300'}`}
             >
               ماهانه
             </button>
             <button 
               onClick={() => setAnnual(true)}
-              className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${annual ? 'bg-[#3b82f6] text-white' : 'text-gray-400'}`}
+              className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${annual ? 'bg-[#3b82f6] text-white shadow-md' : 'text-gray-400 hover:text-gray-300'}`}
             >
               سالانه (۲۰٪ تخفیف)
             </button>
@@ -55,10 +55,10 @@ const Pricing: React.FC = () => {
           {plans.map((plan, i) => (
             <div 
               key={i} 
-              className={`relative p-10 rounded-3xl border transition-all hover:-translate-y-2 ${plan.highlight ? 'bg-white/5 border-[#3b82f6]/50 shadow-[0_20px_50px_rgba(59,130,246,0.1)]' : 'bg-transparent border-white/10'}`}
+              className={`relative p-10 rounded-[2.5rem] border transition-all duration-500 hover:translate-y-[-8px] ${plan.highlight ? 'bg-[#12121c] border-[#3b82f6]/30 shadow-[0_30px_60px_rgba(0,0,0,0.4)]' : 'bg-transparent border-white/5 hover:border-white/10'}`}
             >
               {plan.highlight && (
-                <div className="absolute -top-4 right-10 bg-[#3b82f6] text-white px-4 py-1 rounded-full text-xs font-bold">
+                <div className="absolute -top-4 right-10 bg-[#3b82f6] text-white px-4 py-1 rounded-full text-[10px] font-black tracking-widest uppercase shadow-lg shadow-blue-500/20">
                   پیشنهادی
                 </div>
               )}
@@ -67,18 +67,22 @@ const Pricing: React.FC = () => {
                 <span className="text-5xl font-display font-bold text-[#3b82f6]">${plan.price}</span>
                 <span className="text-gray-500 font-normal">/ ماه</span>
               </div>
-              <p className="text-gray-400 mb-8 font-light">{plan.desc}</p>
+              <p className="text-gray-400 mb-8 font-light leading-relaxed">{plan.desc}</p>
               
               <ul className="space-y-4 mb-10">
                 {plan.features.map((f, j) => (
-                  <li key={j} className="flex items-center gap-3 text-sm text-gray-300">
-                    <span className="text-[#3b82f6]">✓</span>
+                  <li key={j} className="flex items-center gap-3 text-sm text-gray-300/80">
+                    <span className="text-[#3b82f6] font-bold">✓</span>
                     {f}
                   </li>
                 ))}
               </ul>
 
-              <button className={`w-full py-4 rounded-xl font-bold transition-all ${plan.highlight ? 'bg-[#3b82f6] text-white hover:scale-105 shadow-lg shadow-blue-500/20' : 'bg-white/10 text-white hover:bg-white/20'}`}>
+              <button className={`w-full py-4 rounded-2xl font-bold transition-all duration-300 ${
+                plan.highlight 
+                  ? 'bg-[#3b82f6] text-white hover:bg-[#2563eb] shadow-[0_8px_20px_rgba(59,130,246,0.15)] hover:shadow-[0_12px_25px_rgba(59,130,246,0.25)]' 
+                  : 'bg-white/5 text-white/80 hover:bg-white/10 border border-white/5 hover:border-white/10'
+              }`}>
                 {plan.cta}
               </button>
             </div>

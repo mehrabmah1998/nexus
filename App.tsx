@@ -10,7 +10,7 @@ import { NoiseOverlay, AnimatedBackground } from './components/UIElements';
 
 const App: React.FC = () => {
   return (
-    <div className="relative min-h-screen selection:bg-[#3b82f6] selection:text-white bg-[#07070a]">
+    <div className="relative min-h-screen selection:bg-[#3b82f6] selection:text-white bg-[#07070a] overflow-x-hidden">
       <AnimatedBackground />
       <NoiseOverlay />
       
@@ -18,11 +18,18 @@ const App: React.FC = () => {
         <Navbar />
         <main>
           <Hero />
-          <Stats />
-          <div className="relative">
-            <div className="absolute top-0 left-0 w-full h-32 bg-[#07070a] -translate-y-16 -skew-y-2 z-10" />
+          
+          {/* Stats integrated directly into the flow without harsh cuts */}
+          <div className="relative py-12">
+             <Stats />
+          </div>
+
+          <div className="relative mt-20">
+            {/* Soft gradient transition instead of skewed cut */}
+            <div className="absolute top-0 left-0 w-full h-64 bg-gradient-to-b from-transparent to-[#0a0a0f] pointer-events-none" />
             <Features />
           </div>
+          
           <Pricing />
         </main>
         <Footer />
