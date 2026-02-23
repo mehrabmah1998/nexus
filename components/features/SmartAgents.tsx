@@ -8,9 +8,11 @@ const SmartAgents: React.FC<{ isVisible: boolean; delay: number }> = ({ isVisibl
       className={`group relative overflow-hidden rounded-[2.5rem] p-10 bg-[#0a0a0f] border border-white/5 hover:border-blue-500/30 transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
     >
       <div className="relative z-10 text-right">
-        <div className="mb-8 p-4 rounded-2xl bg-blue-500/10 border border-blue-500/20 inline-block group-hover:translate-x-[-8px] transition-transform duration-500">
+        <div className="mb-8 p-4 rounded-2xl bg-blue-500/10 border border-blue-500/20 inline-block transition-all duration-500 group-hover:shadow-[0_0_20px_rgba(59,130,246,0.3)]">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="2">
-            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+            <path d="M12 2L2 7l10 5 10-5-10-5z" className="transition-transform duration-500 group-hover:-translate-y-2" />
+            <path d="M2 12l10 5 10-5" className="transition-transform duration-500" />
+            <path d="M2 17l10 5 10-5" className="transition-transform duration-500 group-hover:translate-y-2" />
           </svg>
         </div>
         <h4 className="text-2xl font-display font-black text-white mb-4">عامل‌های هوشمند</h4>

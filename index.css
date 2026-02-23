@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap');
+
+@font-face {
+  font-family: 'IRANYekanX';
+  src: url('https://2oyypouvtv.ufs.sh/f/wnJq8zLM1RQqRl0yTYtJsjS0yTdZ3vtriGz7FRLel8NIaEhP') format('woff2');
+  font-weight: 100;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'IRANYekanX';
+  src: url('https://2oyypouvtv.ufs.sh/f/wnJq8zLM1RQqAt2vTBCIJ6ptXhiYCcH2zv3eWTk0OMu1FG7Z') format('woff2');
+  font-weight: 200;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'IRANYekanX';
+  src: url('https://2oyypouvtv.ufs.sh/f/wnJq8zLM1RQqLCWu5pH6pFgfxS2QAPXHznNmvl0sZY4Vqojc') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'IRANYekanX';
+  src: url('https://2oyypouvtv.ufs.sh/f/wnJq8zLM1RQqXzBHQrEqtl4ojsDMBxCrZSmdbfYhRAI95L1N') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'IRANYekanX';
+  src: url('https://2oyypouvtv.ufs.sh/f/wnJq8zLM1RQqDx3NF1YqPLsv4TfhOpJtClz89EgmeNKnFuW6') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'IRANYekanX';
+  src: url('https://2oyypouvtv.ufs.sh/f/wnJq8zLM1RQqq2IIWvFnDH72uPftwLU0VJijK8YTev1xky54') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'IRANYekanX';
+  src: url('https://2oyypouvtv.ufs.sh/f/wnJq8zLM1RQqB9msksgXarR30nuV9v5eCADUPqpZLWGkwlxy') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'IRANYekanX';
+  src: url('https://2oyypouvtv.ufs.sh/f/wnJq8zLM1RQq8uywCOVKAF1wHXnfWumgD50O4yPrBaleVCEp') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'IRANYekanX';
+  src: url('https://2oyypouvtv.ufs.sh/f/wnJq8zLM1RQq4JZiKUmkwS10rKfhIcWQlnYj7sBz2dU9bqTo') format('woff2');
+  font-weight: 950;
+  font-style: normal;
+}
+
+@theme {
+  --font-sans: "IRANYekanX", "Vazirmatn", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "IRANYekanX", "Estedad", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --accent: #3b82f6;
+  --bg: #07070a;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.noise {
+  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+  filter: contrast(170%) brightness(1200%);
+}
+
+/* Premium Underline */
+.rtl-underline {
+  position: relative;
+}
+.rtl-underline::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -4px;
+  right: 0;
+  background-color: var(--accent);
+  transition: width 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.rtl-underline:hover::after {
+  width: 100%;
+}
+
+/* Layout Utilities */
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: #1f1f2e;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* Fluid Animations */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-up.active {
+  opacity: 1;
+  transform: translateY(0);
+}

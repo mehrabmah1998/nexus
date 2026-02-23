@@ -9,10 +9,11 @@ const EnterpriseSecurity: React.FC<{ isVisible: boolean; delay: number }> = ({ i
     >
       <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-12 text-right">
         <div className="max-w-xl">
-          <div className="mb-8 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 inline-block shadow-[0_0_20px_rgba(16,185,129,0.1)]">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          <div className="mb-8 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 inline-block shadow-[0_0_20px_rgba(16,185,129,0.1)] relative overflow-hidden group-hover:shadow-[0_0_30px_rgba(16,185,129,0.3)] transition-shadow duration-500">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2" className="relative z-10 transition-transform duration-500 group-hover:scale-110">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" className="transition-all duration-500 group-hover:fill-emerald-500/20" />
             </svg>
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-emerald-400/20 to-transparent -translate-y-full group-hover:animate-[scan-vertical_2s_ease-in-out_infinite]" />
           </div>
           <h4 className="text-3xl lg:text-4xl font-display font-black text-white mb-6">امنیت لایه سازمانی</h4>
           <p className="text-gray-400 text-lg leading-relaxed font-light">حفاظت از داده‌های شما اولویت بی چون و چرای ماست. رمزنگاری نظامی و استانداردهای جهانی برای آرامش خاطر شما.</p>
@@ -31,6 +32,10 @@ const EnterpriseSecurity: React.FC<{ isVisible: boolean; delay: number }> = ({ i
           10% { opacity: 1; }
           90% { opacity: 1; }
           100% { transform: translateX(1200%); opacity: 0; }
+        }
+        @keyframes scan-vertical {
+          0% { transform: translateY(-100%); }
+          100% { transform: translateY(100%); }
         }
         .animate-scan-fast { animation: scan-fast 4s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
       `}</style>

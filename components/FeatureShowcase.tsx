@@ -28,7 +28,7 @@ const FeatureShowcase: React.FC = () => {
             </div>
             <div className="flex items-center gap-2">
                <div className={`w-2 h-2 rounded-full bg-blue-500 animate-pulse ${stage === 0 ? 'opacity-100' : 'opacity-30'}`} />
-               <div className="px-3 py-1 bg-white/5 rounded-md text-[9px] text-gray-500 font-mono tracking-widest uppercase">NEXUS_OS_v2.0</div>
+               <div className="px-3 py-1 bg-white/5 rounded-md text-[9px] text-gray-500 font-mono tracking-widest uppercase">MOMENTUM_OS_v2.0</div>
             </div>
           </div>
           

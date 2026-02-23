@@ -2,7 +2,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import FeatureShowcase from './FeatureShowcase';
 
-const Hero: React.FC = () => {
+interface HeroProps {
+  onNavigate: (view: 'landing' | 'auth-login' | 'auth-signup' | 'onboarding' | 'dashboard') => void;
+}
+
+const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -66,12 +70,15 @@ const Hero: React.FC = () => {
             </h1>
             
             <p className={`text-lg md:text-xl text-gray-400 max-w-xl ml-auto leading-relaxed mb-12 font-light transition-all duration-1000 delay-500 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
-              نکسوس اولین پلتفرم ابری بلوک‌محور است که هوش مصنوعی در قلب آن قرار دارد. پروژه‌های خود را با عاملیت هوشمند پیش ببرید و بهره‌وری را به اوج برسانید.
+              Momentum اولین پلتفرم ابری بلوک‌محور است که هوش مصنوعی در قلب آن قرار دارد. پروژه‌های خود را با عاملیت هوشمند پیش ببرید و بهره‌وری را به اوج برسانید.
             </p>
             
             <div className={`flex flex-wrap justify-start gap-5 transition-all duration-1000 delay-700 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
               {/* Refined Blue Button - Primary Action */}
-              <button className="relative group overflow-hidden px-10 py-5 rounded-2xl bg-[#3b82f6] text-white font-bold text-lg transition-all duration-300 hover:translate-y-[-2px] active:translate-y-0 shadow-[0_10px_30px_rgba(59,130,246,0.2)] hover:shadow-[0_20px_40px_rgba(59,130,246,0.3)]">
+              <button 
+                onClick={() => onNavigate('auth-signup')}
+                className="relative group overflow-hidden px-10 py-5 rounded-2xl bg-[#3b82f6] text-white font-bold text-lg transition-all duration-300 hover:translate-y-[-2px] active:translate-y-0 shadow-[0_10px_30px_rgba(59,130,246,0.2)] hover:shadow-[0_20px_40px_rgba(59,130,246,0.3)]"
+              >
                 <span className="relative z-10">ساخت فضای کاری رایگان</span>
                 <div className="absolute inset-0 z-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <div className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shine" />

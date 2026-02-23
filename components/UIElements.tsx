@@ -40,9 +40,9 @@ export const AnimatedBackground: React.FC = () => {
       />
 
       {/* LIGHT ORBS - Expanded size with edge-bleed to prevent clipping */}
-      <div className="absolute -top-[10%] -left-[10%] w-[120vw] h-[120vw] rounded-full blur-[200px] opacity-[0.1] mix-blend-screen animate-nexus-orb-1 bg-blue-600 will-change-transform" />
-      <div className="absolute -bottom-[10%] -right-[10%] w-[110vw] h-[110vw] rounded-full blur-[180px] opacity-[0.08] mix-blend-screen animate-nexus-orb-2 bg-cyan-500 will-change-transform" />
-      <div className="absolute top-1/2 left-1/2 w-[100vw] h-[100vw] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[220px] opacity-[0.06] mix-blend-screen animate-nexus-orb-3 bg-indigo-700 will-change-transform" />
+      <div className="absolute -top-[10%] -left-[10%] w-[120vw] h-[120vw] rounded-full blur-[200px] opacity-[0.1] mix-blend-screen animate-momentum-orb-1 bg-blue-600 will-change-transform" />
+      <div className="absolute -bottom-[10%] -right-[10%] w-[110vw] h-[110vw] rounded-full blur-[180px] opacity-[0.08] mix-blend-screen animate-momentum-orb-2 bg-cyan-500 will-change-transform" />
+      <div className="absolute top-1/2 left-1/2 w-[100vw] h-[100vw] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[220px] opacity-[0.06] mix-blend-screen animate-momentum-orb-3 bg-indigo-700 will-change-transform" />
 
       {/* Floating Ambient Embers */}
       {particles.map((p) => (
@@ -64,19 +64,19 @@ export const AnimatedBackground: React.FC = () => {
       <div className="absolute inset-[-1px] z-[20] pointer-events-none bg-[radial-gradient(circle_at_center,transparent_0%,rgba(7,7,10,0.3)_60%,rgba(7,7,10,1)_100%)]" />
 
       <style>{`
-        @keyframes nexus-orb-1 {
+        @keyframes momentum-orb-1 {
           0% { transform: translate3d(-5%, -5%, 0) scale(1); }
           50% { transform: translate3d(5%, 5%, 0) scale(1.1); }
           100% { transform: translate3d(-5%, -5%, 0) scale(1); }
         }
 
-        @keyframes nexus-orb-2 {
+        @keyframes momentum-orb-2 {
           0% { transform: translate3d(5%, 5%, 0) scale(1); }
           50% { transform: translate3d(-5%, -5%, 0) scale(1.15); }
           100% { transform: translate3d(5%, 5%, 0) scale(1); }
         }
 
-        @keyframes nexus-orb-3 {
+        @keyframes momentum-orb-3 {
           0% { transform: translate3d(-50%, -50%, 0) rotate(0deg); }
           100% { transform: translate3d(-50%, -50%, 0) rotate(360deg); }
         }
@@ -88,9 +88,9 @@ export const AnimatedBackground: React.FC = () => {
           100% { transform: translate3d(40px, -110vh, 0); opacity: 0; }
         }
         
-        .animate-nexus-orb-1 { animation: nexus-orb-1 20s infinite ease-in-out; }
-        .animate-nexus-orb-2 { animation: nexus-orb-2 25s infinite ease-in-out; }
-        .animate-nexus-orb-3 { animation: nexus-orb-3 40s infinite linear; }
+        .animate-momentum-orb-1 { animation: momentum-orb-1 20s infinite ease-in-out; }
+        .animate-momentum-orb-2 { animation: momentum-orb-2 25s infinite ease-in-out; }
+        .animate-momentum-orb-3 { animation: momentum-orb-3 40s infinite linear; }
         .animate-drift { animation: drift infinite linear; }
       `}</style>
     </div>

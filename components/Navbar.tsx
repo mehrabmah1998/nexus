@@ -1,7 +1,11 @@
 
 import React, { useState, useEffect } from 'react';
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  onNavigate: (view: 'landing' | 'auth-login' | 'auth-signup' | 'onboarding' | 'dashboard') => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -33,7 +37,7 @@ const Navbar: React.FC = () => {
       >
         {/* RIGHT SIDE: Brand / Logo - Aligned to grid edge */}
         <div className="flex items-center">
-          <div className="flex items-center gap-3 group cursor-pointer">
+          <div className="flex items-center gap-3 group cursor-pointer" onClick={() => onNavigate('landing')}>
             {/* Premium DOC Icon Container */}
             <div className="relative w-10 h-10">
               <div className="absolute inset-0 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center transition-all duration-500 group-hover:bg-[#3b82f6]/10 group-hover:border-[#3b82f6]/40 group-hover:scale-110 shadow-sm">
@@ -56,7 +60,7 @@ const Navbar: React.FC = () => {
 
             {/* Farsi Name */}
             <div className="text-xl font-display font-black tracking-tight text-white transition-all duration-300 group-hover:text-[#3b82f6]">
-              نکسوس
+              Momentum
             </div>
           </div>
         </div>
@@ -77,14 +81,20 @@ const Navbar: React.FC = () => {
 
         {/* LEFT SIDE: Action Buttons - Aligned to grid edge */}
         <div className="flex items-center gap-2">
-          <button className="hidden sm:block text-[13px] font-bold text-gray-400 hover:text-white transition-all px-5 py-2.5 hover:bg-white/5 rounded-xl">
+          <button 
+            onClick={() => onNavigate('auth-login')}
+            className="hidden sm:block text-[13px] font-bold text-gray-400 hover:text-white transition-all px-5 py-2.5 hover:bg-white/5 rounded-xl"
+          >
             ورود
           </button>
 
-          <button className="relative group overflow-hidden px-7 py-3 rounded-2xl bg-[#3b82f6] text-white font-black text-sm transition-all duration-300 hover:scale-[1.03] active:scale-95 shadow-[0_12px_28px_-6px_rgba(59,130,246,0.4)] hover:shadow-[0_18px_38px_-4px_rgba(59,130,246,0.5)]">
+          <button 
+            onClick={() => onNavigate('auth-signup')}
+            className="relative group overflow-hidden px-7 py-3 rounded-2xl bg-[#3b82f6] text-white font-bold text-sm transition-all duration-300 hover:translate-y-[-2px] active:translate-y-0 shadow-[0_10px_30px_rgba(59,130,246,0.2)] hover:shadow-[0_20px_40px_rgba(59,130,246,0.3)]"
+          >
             <span className="relative z-10">شروع کنید</span>
-            <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/25 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-[1200ms] ease-in-out" />
-            <div className="absolute inset-0 bg-blue-400 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="absolute inset-0 z-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <div className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shine" />
           </button>
         </div>
       </nav>

@@ -8,18 +8,18 @@ const BlockArchitecture: React.FC<{ isVisible: boolean }> = ({ isVisible }) => {
     >
       <div className="relative z-10 h-full flex flex-col text-right">
         <div className="max-w-md mb-auto">
-          <div className="mb-12 p-5 rounded-3xl bg-blue-500/10 border border-blue-500/20 inline-block group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-[0_0_30px_rgba(59,130,246,0.15)]">
+          <div className="mb-12 p-5 rounded-3xl bg-blue-500/10 border border-blue-500/20 inline-block transition-all duration-500 shadow-[0_0_30px_rgba(59,130,246,0.15)] group-hover:shadow-[0_0_40px_rgba(59,130,246,0.3)]">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="1.5">
-              <rect x="3" y="3" width="7" height="7" rx="1.5" />
-              <rect x="14" y="3" width="7" height="7" rx="1.5" />
-              <rect x="3" y="14" width="7" height="7" rx="1.5" />
-              <path d="M14 14h7v7h-7z" fill="#3b82f6" fillOpacity="0.2" />
+              <rect x="3" y="3" width="7" height="7" rx="1.5" className="transition-all duration-500 group-hover:-translate-y-1 group-hover:-translate-x-1" />
+              <rect x="14" y="3" width="7" height="7" rx="1.5" className="transition-all duration-500 group-hover:-translate-y-1 group-hover:translate-x-1" />
+              <rect x="3" y="14" width="7" height="7" rx="1.5" className="transition-all duration-500 group-hover:translate-y-1 group-hover:-translate-x-1" />
+              <path d="M14 14h7v7h-7z" fill="#3b82f6" fillOpacity="0.2" className="transition-all duration-500 group-hover:translate-y-1 group-hover:translate-x-1 group-hover:fill-opacity-40" />
             </svg>
           </div>
           <span className="text-xs font-black text-blue-500 uppercase tracking-[0.4em] block mb-4">زیرساخت عصبی</span>
           <h3 className="text-4xl lg:text-6xl font-display font-black text-white mb-8 leading-tight">ساختار منعطف و چندلایه</h3>
           <p className="text-gray-400 text-xl leading-relaxed font-light">
-            در نکسوس، هر پروژه یک موجودیت زنده است. بلوک‌های داده را با آزادی کامل ترکیب کنید و ابزاری بسازید که دقیقاً با جریان ذهنی شما همخوانی داشته باشد.
+            در Momentum، هر پروژه یک موجودیت زنده است. بلوک‌های داده را با آزادی کامل ترکیب کنید و ابزاری بسازید که دقیقاً با جریان ذهنی شما همخوانی داشته باشد.
           </p>
         </div>
 
