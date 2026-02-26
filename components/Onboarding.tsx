@@ -1,214 +1,316 @@
-import React, { useState } from 'react';
-import { AnimatedBackground, NoiseOverlay } from './UIElements';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { SectionBackground } from './UIElements';
 
 interface OnboardingProps {
   onComplete: () => void;
 }
 
+const Typewriter: React.FC<{ text: string; delay?: number; onComplete?: () => void; className?: string }> = ({ text, delay = 0, onComplete, className }) => {
+  const [displayedText, setDisplayedText] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    let interval: NodeJS.Timeout;
+
+    setDisplayedText('');
+    setIsTyping(false);
+
+    timeout = setTimeout(() => {
+      setIsTyping(true);
+      let i = 0;
+      interval = setInterval(() => {
+        setDisplayedText(text.slice(0, i + 1));
+        i++;
+        if (i >= text.length) {
+          clearInterval(interval);
+          setIsTyping(false);
+          if (onComplete) onComplete();
+        }
+      }, 40);
+    }, delay);
+
+    return () => {
+      clearTimeout(timeout);
+      clearInterval(interval);
+    };
+  }, [text, delay]);
+
+  return (
+    <div className={`${className}`} dir="rtl">
+      {displayedText}
+      <span className={`inline-block w-3 h-[1em] ml-1 align-middle bg-current ${isTyping ? 'animate-pulse' : 'animate-pulse opacity-50'}`} />
+    </div>
+  );
+};
+
 const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
   const [step, setStep] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState({
-    role: '',
-    workspaceName: '',
-    teamSize: '',
-    goal: ''
-  });
+  const [goal, setGoal] = useState('');
+  
+  // Step 1 state
+  const [showStep1Btn, setShowStep1Btn] = useState(false);
+  
+  // Step 2 state
+  const [showStep2Input, setShowStep2Input] = useState(false);
+  
+  // Step 4 state
+  const [showScaffold, setShowScaffold] = useState(false);
 
-  const handleNext = () => {
-    if (step < 3) {
-      setStep(step + 1);
-    } else {
-      setIsLoading(true);
-      setTimeout(() => {
-        setIsLoading(false);
-        onComplete();
-      }, 2000);
+  // Auto-advance logic for steps 3 and 5
+  useEffect(() => {
+    if (step === 3) {
+      const timer = setTimeout(() => setStep(4), 4500);
+      return () => clearTimeout(timer);
+    }
+    if (step === 5) {
+      const timer = setTimeout(() => onComplete(), 3500);
+      return () => clearTimeout(timer);
+    }
+  }, [step, onComplete]);
+
+  // Background color temperature shift based on step
+  const getBgColor = () => {
+    switch(step) {
+      case 1: return 'bg-blue-900/10';
+      case 2: return 'bg-indigo-900/10';
+      case 3: return 'bg-purple-900/10';
+      case 4: return 'bg-fuchsia-900/10';
+      case 5: return 'bg-rose-900/10';
+      default: return 'bg-blue-900/10';
     }
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-[#07070a] overflow-hidden selection:bg-[#3b82f6] selection:text-white p-6" dir="rtl">
-      <AnimatedBackground />
-      <NoiseOverlay />
+    <div className="relative min-h-screen flex items-center justify-center bg-[#07070a] overflow-hidden selection:bg-white/30 selection:text-white p-6" dir="rtl">
+      {/* Backgrounds */}
+      <SectionBackground fadeTop={false} fadeBottom={false} />
+      
+      {/* Color Temperature Overlay */}
+      <div className={`absolute inset-0 z-[5] mix-blend-screen transition-colors duration-1000 ease-in-out ${getBgColor()}`} />
 
-      <div className="relative z-10 w-full max-w-2xl">
-        {/* Progress Bar */}
-        <div className="mb-12 flex items-center justify-between relative">
-          <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-1 bg-white/10 rounded-full z-0" />
-          <div 
-            className="absolute right-0 top-1/2 -translate-y-1/2 h-1 bg-[#3b82f6] rounded-full z-0 transition-all duration-500"
-            style={{ width: `${((step - 1) / 2) * 100}%` }}
-          />
-          
-          {[1, 2, 3].map((s) => (
-            <div 
-              key={s} 
-              className={`relative z-10 w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-500 ${
-                s < step ? 'bg-[#3b82f6] text-white shadow-[0_0_20px_rgba(59,130,246,0.5)]' :
-                s === step ? 'bg-[#3b82f6] text-white border-4 border-[#07070a] shadow-[0_0_0_2px_#3b82f6]' :
-                'bg-[#1a1a24] text-gray-500 border border-white/10'
-              }`}
-            >
-              {s < step ? (
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M20 6L9 17l-5-5"/>
-                </svg>
-              ) : s}
-            </div>
-          ))}
-        </div>
+      {/* Minimal Progress Line */}
+      <div className="fixed top-0 left-0 right-0 h-1 bg-white/5 z-50">
+        <div 
+          className="h-full bg-white transition-all duration-1000 ease-out"
+          style={{ width: `${(step / 5) * 100}%` }}
+        />
+      </div>
 
-        {/* Content Card */}
-        <div className="bg-white/[0.02] backdrop-blur-xl border border-white/10 rounded-[2rem] p-10 shadow-[0_0_40px_-10px_rgba(0,0,0,0.5)] min-h-[400px] flex flex-col">
+      <div className="relative z-10 w-full max-w-4xl mx-auto">
+        <AnimatePresence mode="wait">
           
+          {/* STEP 1: Welcome */}
           {step === 1 && (
-            <div className="flex-1 animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <h2 className="text-3xl font-display font-black text-white mb-2">خوش آمدید! نقش شما چیست؟</h2>
-              <p className="text-gray-400 mb-8">برای شخصی‌سازی تجربه شما در Momentum، لطفاً نقش خود را انتخاب کنید.</p>
-              
-              <div className="grid grid-cols-2 gap-4">
-                {[
-                  { id: 'designer', icon: '🎨', title: 'طراح', desc: 'UI/UX، گرافیک' },
-                  { id: 'developer', icon: '💻', title: 'توسعه‌دهنده', desc: 'فرانت‌اند، بک‌اند' },
-                  { id: 'manager', icon: '📊', title: 'مدیر محصول', desc: 'استراتژی، برنامه‌ریزی' },
-                  { id: 'other', icon: '✨', title: 'سایر', desc: 'بازاریابی، فروش و...' }
-                ].map(role => (
-                  <button
-                    key={role.id}
-                    onClick={() => setData({...data, role: role.id})}
-                    className={`p-5 rounded-2xl border text-right transition-all duration-300 ${
-                      data.role === role.id 
-                        ? 'bg-[#3b82f6]/10 border-[#3b82f6] shadow-[0_0_20px_rgba(59,130,246,0.15)]' 
-                        : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'
-                    }`}
-                  >
-                    <div className="text-3xl mb-3">{role.icon}</div>
-                    <div className="font-bold text-white mb-1">{role.title}</div>
-                    <div className="text-xs text-gray-500">{role.desc}</div>
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {step === 2 && (
-            <div className="flex-1 animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <h2 className="text-3xl font-display font-black text-white mb-2">فضای کاری خود را بسازید</h2>
-              <p className="text-gray-400 mb-8">نامی برای فضای کاری خود انتخاب کنید و اندازه تیم را مشخص کنید.</p>
-              
-              <div className="space-y-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-gray-300 ml-1">نام فضای کاری</label>
-                  <input 
-                    type="text" 
-                    value={data.workspaceName}
-                    onChange={(e) => setData({...data, workspaceName: e.target.value})}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-white placeholder:text-gray-600 focus:outline-none focus:border-[#3b82f6]/50 focus:bg-white/10 transition-all text-lg"
-                    placeholder="مثال: تیم طراحی آلفا"
-                  />
-                </div>
-
-                <div className="space-y-3">
-                  <label className="text-sm font-bold text-gray-300 ml-1">اندازه تیم</label>
-                  <div className="flex flex-wrap gap-3">
-                    {['فقط خودم', '۲ تا ۵ نفر', '۶ تا ۱۵ نفر', 'بیشتر از ۱۵ نفر'].map(size => (
-                      <button
-                        key={size}
-                        onClick={() => setData({...data, teamSize: size})}
-                        className={`px-5 py-3 rounded-xl border text-sm font-bold transition-all duration-300 ${
-                          data.teamSize === size
-                            ? 'bg-[#3b82f6] border-[#3b82f6] text-white shadow-lg'
-                            : 'bg-white/5 border-white/10 text-gray-400 hover:bg-white/10 hover:text-white'
-                        }`}
-                      >
-                        {size}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {step === 3 && (
-            <div className="flex-1 animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <h2 className="text-3xl font-display font-black text-white mb-2">هدف اصلی شما چیست؟</h2>
-              <p className="text-gray-400 mb-8">Momentum چگونه می‌تواند به شما کمک کند؟</p>
-              
-              <div className="space-y-3">
-                {[
-                  { id: 'tasks', title: 'مدیریت وظایف و پروژه‌ها', desc: 'پیگیری کارها و زمان‌بندی دقیق' },
-                  { id: 'docs', title: 'مستندسازی هوشمند', desc: 'نوشتن و سازماندهی اسناد با کمک هوش مصنوعی' },
-                  { id: 'collab', title: 'همکاری تیمی', desc: 'ارتباط بهتر و اشتراک‌گذاری منابع' },
-                  { id: 'all', title: 'همه موارد', desc: 'یک فضای کاری یکپارچه برای تمام نیازها' }
-                ].map(goal => (
-                  <button
-                    key={goal.id}
-                    onClick={() => setData({...data, goal: goal.id})}
-                    className={`w-full p-4 rounded-xl border text-right flex items-center gap-4 transition-all duration-300 ${
-                      data.goal === goal.id 
-                        ? 'bg-[#3b82f6]/10 border-[#3b82f6] shadow-[0_0_20px_rgba(59,130,246,0.15)]' 
-                        : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'
-                    }`}
-                  >
-                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
-                      data.goal === goal.id ? 'border-[#3b82f6]' : 'border-gray-500'
-                    }`}>
-                      {data.goal === goal.id && <div className="w-2.5 h-2.5 rounded-full bg-[#3b82f6]" />}
-                    </div>
-                    <div>
-                      <div className="font-bold text-white">{goal.title}</div>
-                      <div className="text-xs text-gray-500 mt-0.5">{goal.desc}</div>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Footer Actions */}
-          <div className="mt-10 flex items-center justify-between pt-6 border-t border-white/10">
-            {step > 1 ? (
-              <button 
-                onClick={() => setStep(step - 1)}
-                className="px-6 py-3 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-white/5 transition-all"
-              >
-                مرحله قبل
-              </button>
-            ) : (
-              <div /> // Empty div for flex spacing
-            )}
-            
-            <button 
-              onClick={handleNext}
-              disabled={
-                (step === 1 && !data.role) || 
-                (step === 2 && (!data.workspaceName || !data.teamSize)) ||
-                (step === 3 && !data.goal) ||
-                isLoading
-              }
-              className="relative group overflow-hidden px-8 py-3 rounded-xl bg-[#3b82f6] text-white font-bold transition-all hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            <motion.div
+              key="step1"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -40 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-col items-center text-center"
             >
-              {isLoading ? (
-                <>
-                  <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  در حال آماده‌سازی...
-                </>
-              ) : (
-                <>
-                  {step === 3 ? 'ورود به Momentum' : 'مرحله بعد'}
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="rotate-180">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
-                  </svg>
-                </>
-              )}
-            </button>
-          </div>
-        </div>
+              <Typewriter 
+                text="سلام. من هسته هوش مصنوعی Momentum هستم. آماده‌اید فضای کاری شما را خلق کنیم؟" 
+                className="text-2xl md:text-4xl lg:text-5xl font-light leading-relaxed text-white mb-16 max-w-3xl"
+                onComplete={() => setShowStep1Btn(true)}
+              />
+              <AnimatePresence>
+                {showStep1Btn && (
+                  <motion.button
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    onClick={() => setStep(2)}
+                    className="text-sm font-display tracking-widest uppercase text-gray-400 hover:text-white transition-colors border border-white/20 hover:border-white/60 px-10 py-4 rounded-full"
+                  >
+                    [ شروع فرآیند ]
+                  </motion.button>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          )}
+
+          {/* STEP 2: Goal Input */}
+          {step === 2 && (
+            <motion.div
+              key="step2"
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -40 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-col items-start w-full"
+            >
+              <Typewriter 
+                text="چه چیزی می‌خواهید بسازید یا مدیریت کنید؟ به زبان ساده توضیح دهید." 
+                className="text-2xl md:text-4xl font-light leading-relaxed text-white mb-16"
+                onComplete={() => setShowStep2Input(true)}
+              />
+              <AnimatePresence>
+                {showStep2Input && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="w-full"
+                  >
+                    <input 
+                      type="text"
+                      autoFocus
+                      value={goal}
+                      onChange={e => setGoal(e.target.value)}
+                      onKeyDown={e => e.key === 'Enter' && goal.trim() && setStep(3)}
+                      className="w-full bg-transparent border-b border-white/20 focus:border-white outline-none text-xl md:text-3xl py-4 text-white placeholder:text-gray-700 transition-colors font-light"
+                      placeholder="مثلاً: یک سیستم مدیریت تسک برای تیم طراحی..."
+                    />
+                    <div className="mt-12 flex justify-end">
+                      <button
+                        onClick={() => goal.trim() && setStep(3)}
+                        className={`text-sm font-display tracking-widest uppercase transition-all duration-300 px-10 py-4 rounded-full border ${goal.trim() ? 'text-black bg-white border-white hover:bg-gray-200 hover:scale-105' : 'text-gray-600 border-white/10 cursor-not-allowed'}`}
+                      >
+                        [ تایید و ادامه ]
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          )}
+
+          {/* STEP 3: AI Thinking */}
+          {step === 3 && (
+            <motion.div
+              key="step3"
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -40 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-col items-center text-center"
+            >
+              <div className="text-blue-400 font-display text-xs tracking-widest mb-12 animate-pulse">NEURAL ENGINE V.3.4</div>
+              <div className="text-2xl md:text-3xl font-display text-white mb-16 font-light">در حال پردازش الگوها...</div>
+              
+              <div className="flex flex-col gap-6 text-sm md:text-base font-display text-gray-500 items-start w-full max-w-md mx-auto">
+                <motion.div initial={{opacity:0, x: -10}} animate={{opacity:1, x: 0}} transition={{delay: 0.5}}>{'>'} استخراج موجودیت‌ها از درخواست...</motion.div>
+                <motion.div initial={{opacity:0, x: -10}} animate={{opacity:1, x: 0}} transition={{delay: 1.5}}>{'>'} طراحی ساختار پایگاه داده...</motion.div>
+                <motion.div initial={{opacity:0, x: -10}} animate={{opacity:1, x: 0}} transition={{delay: 2.5}}>{'>'} ایجاد معماری فضای کاری...</motion.div>
+                <motion.div initial={{opacity:0, x: -10}} animate={{opacity:1, x: 0}} transition={{delay: 3.5}} className="text-white">{'>'} ساختار آماده شد.</motion.div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* STEP 4: Scaffold Preview */}
+          {step === 4 && (
+            <motion.div
+              key="step4"
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -40 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-col w-full"
+            >
+              <Typewriter 
+                text="این ساختار پیشنهادی من برای فضای کاری شماست:" 
+                className="text-xl md:text-3xl font-light text-white mb-12"
+                onComplete={() => setShowScaffold(true)}
+              />
+              
+              <AnimatePresence>
+                {showScaffold && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95, filter: 'blur(10px)' }}
+                    animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                    className="w-full border border-white/10 rounded-2xl bg-black/40 backdrop-blur-2xl overflow-hidden flex flex-col md:flex-row h-[450px] shadow-2xl"
+                  >
+                    {/* Sidebar */}
+                    <div className="w-full md:w-64 border-l border-white/5 p-6 flex flex-col gap-4 bg-white/[0.01]">
+                      <div className="h-5 w-32 bg-white/20 rounded mb-6" />
+                      <div className="h-3 w-full bg-white/10 rounded" />
+                      <div className="h-3 w-3/4 bg-white/10 rounded" />
+                      <div className="h-3 w-5/6 bg-white/10 rounded" />
+                      <div className="h-3 w-2/3 bg-white/10 rounded" />
+                      <div className="mt-auto h-10 w-full border border-white/10 hover:bg-white/5 transition-colors rounded-lg flex items-center justify-center text-xs text-gray-400 font-display cursor-pointer">+ بلوک جدید</div>
+                    </div>
+                    {/* Main Content */}
+                    <div className="flex-1 p-8 flex flex-col gap-6 relative overflow-hidden">
+                      {/* Animated scanning line */}
+                      <motion.div 
+                        className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent z-10"
+                        animate={{ top: ['0%', '100%', '0%'] }}
+                        transition={{ duration: 4, ease: "linear", repeat: Infinity }}
+                      />
+                      
+                      <div className="h-8 w-1/3 bg-white/20 rounded mb-6" />
+                      <div className="grid grid-cols-3 gap-6">
+                        <div className="h-28 border border-white/5 rounded-xl bg-white/[0.02] relative overflow-hidden">
+                          <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10" />
+                          <div className="absolute bottom-4 right-4 left-4 h-2 bg-white/5 rounded" />
+                        </div>
+                        <div className="h-28 border border-white/5 rounded-xl bg-white/[0.02] relative overflow-hidden">
+                          <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10" />
+                          <div className="absolute bottom-4 right-4 left-4 h-2 bg-white/5 rounded" />
+                        </div>
+                        <div className="h-28 border border-white/5 rounded-xl bg-white/[0.02] relative overflow-hidden">
+                          <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10" />
+                          <div className="absolute bottom-4 right-4 left-4 h-2 bg-white/5 rounded" />
+                        </div>
+                      </div>
+                      <div className="flex-1 border border-white/5 rounded-xl bg-white/[0.02] mt-2 relative overflow-hidden">
+                         <div className="absolute top-6 right-6 w-1/4 h-4 bg-white/10 rounded" />
+                         <div className="absolute top-16 right-6 left-6 h-px bg-white/5" />
+                         <div className="absolute top-24 right-6 w-3/4 h-2 bg-white/5 rounded" />
+                         <div className="absolute top-32 right-6 w-1/2 h-2 bg-white/5 rounded" />
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              <AnimatePresence>
+                {showScaffold && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1 }}
+                    className="mt-12 flex justify-center"
+                  >
+                    <button
+                      onClick={() => setStep(5)}
+                      className="text-sm font-display tracking-widest uppercase text-black bg-white hover:bg-gray-200 transition-colors px-10 py-4 rounded-full hover:scale-105 duration-300"
+                    >
+                      [ تایید و ساخت فضای کاری ]
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          )}
+
+          {/* STEP 5: Launch */}
+          {step === 5 && (
+            <motion.div
+              key="step5"
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -40 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-col items-center text-center"
+            >
+              <div className="w-32 h-32 mb-12 relative flex items-center justify-center">
+                <div className="absolute inset-0 border-t-2 border-white/80 rounded-full animate-spin" style={{ animationDuration: '1s' }} />
+                <div className="absolute inset-3 border-r-2 border-white/40 rounded-full animate-spin" style={{ animationDirection: 'reverse', animationDuration: '1.5s' }} />
+                <div className="absolute inset-6 border-b-2 border-white/20 rounded-full animate-spin" style={{ animationDuration: '2s' }} />
+                <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
+              </div>
+              <Typewriter 
+                text="در حال مونتاژ نهایی..." 
+                className="text-2xl md:text-4xl font-display text-white mb-6 font-light"
+              />
+              <div className="text-gray-500 font-display text-sm tracking-widest">انتقال به داشبورد تا چند لحظه دیگر</div>
+            </motion.div>
+          )}
+
+        </AnimatePresence>
       </div>
     </div>
   );

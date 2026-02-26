@@ -1,5 +1,5 @@
 import React from 'react';
-import { AnimatedBackground, NoiseOverlay } from './UIElements';
+import { SectionBackground } from './UIElements';
 
 interface DashboardProps {
   onLogout: () => void;
@@ -7,9 +7,8 @@ interface DashboardProps {
 
 const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
   return (
-    <div className="relative min-h-screen bg-[#07070a] overflow-hidden selection:bg-[#3b82f6] selection:text-white" dir="rtl">
-      <AnimatedBackground />
-      <NoiseOverlay />
+    <div className="relative min-h-screen bg-transparent overflow-hidden selection:bg-[#3b82f6] selection:text-white" dir="rtl">
+      <SectionBackground fadeTop={false} fadeBottom={false} />
       
       {/* Simple Dashboard Navbar */}
       <nav className="relative z-20 border-b border-white/10 bg-white/[0.02] backdrop-blur-xl">

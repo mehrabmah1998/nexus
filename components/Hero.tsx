@@ -1,6 +1,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import FeatureShowcase from './FeatureShowcase';
+import { SectionBackground } from './UIElements';
 
 interface HeroProps {
   onNavigate: (view: 'landing' | 'auth-login' | 'auth-signup' | 'onboarding' | 'dashboard') => void;
@@ -43,6 +44,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
       ref={sectionRef}
       className="relative min-h-screen flex items-center pt-24 pb-12 lg:pt-32 lg:pb-24 overflow-hidden"
     >
+      <SectionBackground fadeTop={false} />
       <div className="max-w-7xl mx-auto px-6 relative z-20 w-full">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
           

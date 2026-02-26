@@ -1,5 +1,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
+import { SectionBackground } from './UIElements';
 
 const Stats: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -34,9 +35,10 @@ const Stats: React.FC = () => {
   return (
     <div 
       ref={sectionRef}
-      className="relative z-30 px-6 py-10"
+      className="relative z-30 px-6 py-10 overflow-hidden"
     >
-      <div className={`max-w-7xl mx-auto rounded-[3.5rem] p-[1px] bg-gradient-to-b from-white/10 to-transparent transition-all duration-1000 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}`}>
+      <SectionBackground />
+      <div className={`max-w-7xl mx-auto rounded-[3.5rem] p-[1px] bg-gradient-to-b from-white/10 to-transparent transition-all duration-1000 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'} relative z-10`}>
         <div className="bg-[#0a0a0f]/40 backdrop-blur-2xl rounded-[3.5rem] px-10 py-16 md:py-20 relative overflow-hidden">
           
           {/* Ambient light sweep effect */}

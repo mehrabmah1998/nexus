@@ -7,7 +7,7 @@ import Stats from './components/Stats';
 import Features from './components/Features';
 import Pricing from './components/Pricing';
 import Footer from './components/Footer';
-import { NoiseOverlay, AnimatedBackground } from './components/UIElements';
+import { NoiseOverlay } from './components/UIElements';
 import Auth from './components/Auth';
 import Onboarding from './components/Onboarding';
 import Dashboard from './components/Dashboard';
@@ -26,7 +26,7 @@ const App: React.FC = () => {
   const renderView = () => {
     if (currentView === 'auth-login' || currentView === 'auth-signup') {
       return (
-        <motion.div key="auth" variants={pageVariants} initial="initial" animate="animate" exit="exit" className="absolute inset-0 w-full min-h-screen">
+        <motion.div key="auth" variants={pageVariants} initial="initial" animate="animate" exit="exit" className="w-full min-h-screen">
           <Auth 
             initialMode={currentView === 'auth-login' ? 'login' : 'signup'} 
             onLoginSuccess={() => setCurrentView('onboarding')} 
@@ -38,7 +38,7 @@ const App: React.FC = () => {
 
     if (currentView === 'onboarding') {
       return (
-        <motion.div key="onboarding" variants={pageVariants} initial="initial" animate="animate" exit="exit" className="absolute inset-0 w-full min-h-screen">
+        <motion.div key="onboarding" variants={pageVariants} initial="initial" animate="animate" exit="exit" className="w-full min-h-screen">
           <Onboarding onComplete={() => setCurrentView('dashboard')} />
         </motion.div>
       );
@@ -46,17 +46,15 @@ const App: React.FC = () => {
 
     if (currentView === 'dashboard') {
       return (
-        <motion.div key="dashboard" variants={pageVariants} initial="initial" animate="animate" exit="exit" className="absolute inset-0 w-full min-h-screen">
+        <motion.div key="dashboard" variants={pageVariants} initial="initial" animate="animate" exit="exit" className="w-full min-h-screen">
           <Dashboard onLogout={() => setCurrentView('landing')} />
         </motion.div>
       );
     }
 
     return (
-      <motion.div key="landing" variants={pageVariants} initial="initial" animate="animate" exit="exit" className="absolute inset-0 w-full min-h-screen">
-        <div className="relative min-h-screen selection:bg-[#3b82f6] selection:text-white bg-[#07070a] overflow-x-hidden">
-          <AnimatedBackground />
-          <NoiseOverlay />
+      <motion.div key="landing" variants={pageVariants} initial="initial" animate="animate" exit="exit" className="w-full min-h-screen">
+        <div className="relative min-h-screen selection:bg-[#3b82f6] selection:text-white bg-transparent overflow-x-hidden">
           
           <div className="relative z-10">
             <Navbar onNavigate={(view) => setCurrentView(view)} />
@@ -68,8 +66,6 @@ const App: React.FC = () => {
               </div>
 
               <div className="relative">
-                {/* Seamless transition using opacity instead of solid colors */}
-                <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-[#07070a] via-transparent to-transparent pointer-events-none z-0" />
                 <Features />
               </div>
               
@@ -83,7 +79,8 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#07070a] overflow-hidden">
+    <div className="relative min-h-screen bg-[#07070a] overflow-x-hidden">
+      <NoiseOverlay />
       <AnimatePresence mode="wait">
         {renderView()}
       </AnimatePresence>

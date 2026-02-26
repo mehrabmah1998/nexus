@@ -5,6 +5,7 @@ import SmartAgents from './features/SmartAgents';
 import TeamCollaboration from './features/TeamCollaboration';
 import ApiAccess from './features/ApiAccess';
 import EnterpriseSecurity from './features/EnterpriseSecurity';
+import { SectionBackground } from './UIElements';
 
 const Features: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -30,10 +31,8 @@ const Features: React.FC = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-32 lg:py-64 relative bg-black overflow-hidden">
-      {/* Ambient backgrounds */}
-      <div className="absolute top-0 left-0 w-full h-[1000px] bg-gradient-to-b from-[#07070a] via-transparent to-transparent z-0" />
-      
+    <section ref={sectionRef} className="py-32 lg:py-64 relative bg-transparent overflow-hidden">
+      <SectionBackground />
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         
         {/* Header Section */}

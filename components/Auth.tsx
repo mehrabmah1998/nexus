@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { AnimatedBackground, NoiseOverlay } from './UIElements';
 import AuthSlideshow from './AuthSlideshow';
+import { SectionBackground } from './UIElements';
 
 interface AuthProps {
   onLoginSuccess: () => void;
@@ -68,9 +68,8 @@ const Auth: React.FC<AuthProps> = ({ onLoginSuccess, onBack, initialMode = 'logi
   };
 
   return (
-    <div className="relative min-h-screen flex bg-[#07070a] overflow-hidden selection:bg-[#3b82f6] selection:text-white" dir="rtl">
-      <AnimatedBackground />
-      <NoiseOverlay />
+    <div className="relative min-h-screen flex bg-transparent overflow-hidden selection:bg-[#3b82f6] selection:text-white" dir="rtl">
+      <SectionBackground fadeTop={false} fadeBottom={false} />
       
       {/* Right Side - Auth Form (First in DOM for RTL) */}
       <div className="w-full lg:w-1/2 flex flex-col relative z-10">
