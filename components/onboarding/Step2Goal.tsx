@@ -104,13 +104,13 @@ const Step2Goal: React.FC<Step2GoalProps> = ({ goal, setGoal, onNext }) => {
               <div className="absolute -inset-[1px] bg-gradient-to-r from-blue-500/30 via-purple-500/30 to-blue-500/30 rounded-2xl blur-sm opacity-50 group-hover:opacity-100 transition duration-500"></div>
               <div className="relative flex items-center bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-2 shadow-2xl transition-all duration-300 group-focus-within:bg-black/60 group-focus-within:border-blue-500/50">
                 
-                {/* Send Button (Left side in RTL) */}
-                <button
-                  onClick={() => goal.trim() && onNext()}
-                  disabled={!goal.trim()}
-                  className={`p-3.5 rounded-xl transition-all duration-300 flex items-center justify-center ${goal.trim() ? 'bg-[#3b82f6] text-white shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:bg-blue-500 hover:scale-105' : 'bg-white/5 text-gray-600 cursor-not-allowed'}`}
+                {/* Mic Button */}
+                <button 
+                  onClick={toggleListen}
+                  className={`p-3.5 rounded-xl transition-all duration-300 flex items-center justify-center ${isListening ? 'bg-purple-500/20 text-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.4)]' : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'}`}
+                  title="صحبت کنید"
                 >
-                  <Send className="w-5 h-5 -rotate-180" />
+                  <Mic className={`w-5 h-5 ${isListening ? 'animate-pulse' : ''}`} />
                 </button>
 
                 <input 
@@ -124,13 +124,13 @@ const Step2Goal: React.FC<Step2GoalProps> = ({ goal, setGoal, onNext }) => {
                   placeholder="مثلاً: یک سیستم مدیریت تسک..."
                 />
 
-                {/* Mic Button (Right side in RTL) */}
-                <button 
-                  onClick={toggleListen}
-                  className={`p-3.5 rounded-xl transition-all duration-300 flex items-center justify-center ${isListening ? 'bg-purple-500/20 text-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.4)]' : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'}`}
-                  title="صحبت کنید"
+                {/* Send Button */}
+                <button
+                  onClick={() => goal.trim() && onNext()}
+                  disabled={!goal.trim()}
+                  className={`p-3.5 rounded-xl transition-all duration-300 flex items-center justify-center ${goal.trim() ? 'bg-[#3b82f6] text-white shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:bg-blue-500 hover:scale-105' : 'bg-white/5 text-gray-600 cursor-not-allowed'}`}
                 >
-                  <Mic className={`w-5 h-5 ${isListening ? 'animate-pulse' : ''}`} />
+                  <Send className="w-5 h-5 -scale-x-100" />
                 </button>
 
               </div>
