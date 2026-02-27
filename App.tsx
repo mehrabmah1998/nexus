@@ -29,7 +29,13 @@ const App: React.FC = () => {
         <motion.div key="auth" variants={pageVariants} initial="initial" animate="animate" exit="exit" className="w-full min-h-screen">
           <Auth 
             initialMode={currentView === 'auth-login' ? 'login' : 'signup'} 
-            onLoginSuccess={() => setCurrentView('onboarding')} 
+            onLoginSuccess={(mode) => {
+              if (mode === 'signup') {
+                setCurrentView('onboarding');
+              } else {
+                setCurrentView('dashboard');
+              }
+            }} 
             onBack={() => setCurrentView('landing')} 
           />
         </motion.div>

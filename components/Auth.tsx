@@ -4,7 +4,7 @@ import AuthSlideshow from './AuthSlideshow';
 import { SectionBackground } from './UIElements';
 
 interface AuthProps {
-  onLoginSuccess: () => void;
+  onLoginSuccess: (mode: 'login' | 'signup') => void;
   onBack: () => void;
   initialMode?: 'login' | 'signup';
 }
@@ -21,7 +21,7 @@ const Auth: React.FC<AuthProps> = ({ onLoginSuccess, onBack, initialMode = 'logi
     // Simulate API call
     setTimeout(() => {
       setIsLoading(false);
-      onLoginSuccess();
+      onLoginSuccess(mode);
     }, 1500);
   };
 
